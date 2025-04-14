@@ -1,0 +1,4 @@
+name = "Brobdingnag"
+uuid = "a526c94f-1c9d-45b5-83f2-05d496a0a3d9"
+authors = ["Kevin Atteson <kevin@atteson.com>"]
+version = "0.1.0"

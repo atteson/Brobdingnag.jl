@@ -2,9 +2,9 @@ module Brobdingnag
 
 export Brob
 
-struct Brob <: AbstractFloat
+struct Brob{T} <: AbstractFloat
     positive::Bool
-    log::Float64
+    log::T
 end
 
 Brob( x::T ) where {T <: Real} = Brob( !(sign(x) < 0), log(abs(x)) )
@@ -19,9 +19,9 @@ Base.convert( ::Type{Float32}, x::Brob) = Float32(convert(Float64, x))
 function Base.:+( x::Brob, y::Brob )
     s = x.positive == y.positive ? 1 : -1
     if x.log > y.log
-        return Brob( x.positive, x.log + log(1 + s * exp(y.log - x.log)) )
+        return Brob( x.positive, x.log + log1p(s * exp(y.log - x.log)) )
     elseif x.log != -Inf || y.log != -Inf
-        return Brob( y.positive, y.log + log(1 + s * exp(x.log - y.log)) )
+        return Brob( y.positive, y.log + log1p(s * exp(x.log - y.log)) )
     else
         return x
     end
